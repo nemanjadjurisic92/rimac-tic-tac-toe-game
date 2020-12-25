@@ -1,0 +1,62 @@
+<div>
+    <h1 class='header'>Tic Tac Toe</h1>
+</div>
+<div>
+    <h1 class='header down' *ngIf="winner != ''" [ngClass]="{'x-winner': winner == 'X', 'o-winner': winner == 'O'}">Game winner: {{winner}}</h1>
+</div>
+<div class='grid' [ngClass]="{'disabled': winner != ''}" *ngIf="selectedGame.id != 0">
+    <h3 *ngIf="xIsNext&&winner==''" class="x-turn">It's X Player turn</h3>
+    <h3 *ngIf="!xIsNext&&winner==''" class="o-turn">It's O Player turn</h3>
+    <div class='space' id=0 #one (click)="makeMove(one)"></div>
+    <div class='space' id=1 #two (click)="makeMove(two)"></div>
+    <div class='space' id=2 #three (click)="makeMove(three)"></div>
+    <div class='space' id=3 #four (click)="makeMove(four)"></div>
+    <div class='space' id=4 #five (click)="makeMove(five)"></div>
+    <div class='space' id=5 #six (click)="makeMove(six)"></div>
+    <div class='space' id=6 #seven (click)="makeMove(seven)"></div>
+    <div class='space' id=7 #eight (click)="makeMove(eight)"></div>
+    <div class='space' id=8 #nine (click)="makeMove(nine)"></div>
+</div>
+
+<div class='wrapper'>
+    <button class='reset' (click)="openTypeGame()">Create new game</button>
+</div>
+<div class='wrapper'>
+    <button class='reset' (click)="openList()">Games list</button>
+</div>
+
+<div class="modal-wrap" *ngIf="modalVisible">
+    <div class="modal-cnt-wrap">
+        <div class="modal-cnt">
+            <div class="winner" *ngIf="winner != 'DRAW'">Winner is {{winner}} player! Congratulations!</div>
+            <div class="winner" *ngIf="winner == 'DRAW'">The end! There are no winners, it's a draw!</div>
+        </div>
+        <div class="close" (click)="closeModal()"><p>X</p></div>
+    </div>
+</div>
+
+<div class="modal-wrap" *ngIf="listVisible">
+    <div class="modal-cnt-wrap">
+        <div class="modal-cnt">
+            <h3>Games history</h3>
+            <div class="game-wrapper">
+                <div class="game" *ngFor="let game of gamesList" (click)="openGame(game.id)">{{game.name}} - Game winner: <p class="winner" [ngClass]="{'x-win': game.winner == 'X','o-win': game.winner == 'O'}">{{game.winner}}</p> <p class="right">{{game.type}}</p></div>
+                <div class="game" *ngIf="gamesList.length == 0">There are no games yet, let's play!</div>
+            </div>
+        </div>
+        <div class="close" (click)="closeListModal()"><p>X</p></div>
+    </div>
+</div>
+
+<div class="modal-wrap" *ngIf="typeVisible">
+    <div class="modal-cnt-wrap">
+        <div class="modal-cnt type">
+            <h4>Select type of game</h4>
+            <div class="buttons-wrapper">
+                <button (click)="createNewGame('single player')">Single player</button>
+                <button class="multiplayer" (click)="createNewGame('multiplayer')">Multiplayer</button>
+            </div>
+        </div>
+        <div class="close" (click)="closeTypeModal()"><p>X</p></div>
+    </div>
+</div>
